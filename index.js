@@ -12,7 +12,7 @@
  * nao esquecer de validar o HOST do pub/sub emulator 
  * > $(gcloud beta emulators pubsub env-init)
  * sera criado o environment PUBSUB_EMULATOR_HOST: 'localhost:8085'
- * 
+ * > process.env.PUBSUB_EMULATOR_HOST = 'localhost:8085'
  * 
  * rodando com docker 
  * https://github.com/3AP-AG/pubsub-emulator-docker
@@ -31,12 +31,12 @@ async function deleteSubscription() {
 }
 
 async function deleteTopic() {
-    await pubSubClient.topic("topic-name").delete();
+    await client.topic("topic-name").delete();
     console.log(`Topic ${"topic-name"} deleted.`);
 }
 
 // Instantiate a client
-// process.env.PUBSUB_EMULATOR_HOST = 'localhost:8085'
+process.env.PUBSUB_EMULATOR_HOST = 'localhost:8085'
 const client = new PubSub({ projectId: "test-project" });
 
 const [ topics ] = await client.getTopics();
@@ -64,22 +64,19 @@ try {
     subscription = created.subscription;
 } catch (error) {
     if (error.code === 6) { // topic already exists
-        subscription = await client.subscription("subscription-name", {
-            filter: "filter.string",
-            enableMessageOrdering: true,
-        });
+        subscription = await client.subscription("subscription-name");
     }
 }
 // console.log(inspect(subscription, false, 4));
 
 // Receive callbacks for new messages on the subscription
 subscription.on('message', message => {
-    console.log('Received message:', message);
+    console.log('Received message:', message.data.toString());
 
     deleteSubscription().catch(console.error);
     deleteTopic().catch(console.error);
     
-    // process.exit(0);
+    process.exit(0);
 });
 
 // Receive callbacks for errors on the subscription
