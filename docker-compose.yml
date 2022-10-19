@@ -1,0 +1,17 @@
+version: '3'
+
+volumes:
+  pubsub_data:
+    driver: local
+
+services:
+  pubsub:
+    image: 3apag/pubsub-emulator
+    environment:
+      - PUBSUB_PROJECT_ID=test-project
+      - PUBSUB_LISTEN_ADDRESS=0.0.0.0:8085
+    ports:
+      - 8085:8085
+    volumes:
+      - pubsub_data:/opt/data
+

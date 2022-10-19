@@ -1,0 +1,17 @@
+{
+  "name": "pub-sub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "npx nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/pubsub": "^3.2.0",
+    "nodemon": "^2.0.20"
+  }
+}
