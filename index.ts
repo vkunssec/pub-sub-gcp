@@ -36,7 +36,7 @@ async function deleteTopic(client: any) {
 }
 
 // // Instantiate a client
-process.env.PUBSUB_EMULATOR_HOST = 'localhost:8085'
+// process.env.PUBSUB_EMULATOR_HOST = 'localhost:8085'
 // const client = new PubSub({ projectId: "test-project" });
 
 // const [ topics ] = await client.getTopics();
@@ -116,24 +116,24 @@ import { createSubscription, createTopic, getClient, handlerMessage, publishMess
 
 (async() => {
     const client = await getClient({
-        projectId: 'test-project',
+        projectId: 'vknc-253703'
     });
 
-    try {
-        await deleteSubscription(client);
-        await deleteTopic(client);
-    } catch (error) {}
+    // try {
+    //     await deleteSubscription(client);
+    //     await deleteTopic(client);
+    // } catch (error) {}
 
     const topic = await createTopic({
-        projectId: "test-project",
+        client,
         topicName: "topic-name",
     });
     // console.log(topic);
     const subscription = await createSubscription({
-        projectId: "test-project",
+        client,
         topic: topic,
         subscriptionName: "subscription-name",
-        filterString: 'test="event.message.string"',
+        filterString: 'attributes.test="event.message.string"',
     });
     // console.log(subscription);
     const m1 = await publishMessage({
@@ -147,6 +147,7 @@ import { createSubscription, createTopic, getClient, handlerMessage, publishMess
             }
         }
     });
+    console.log("Mensagens enviadas");
     console.log(m1);
     const m2 = await publishMessage({
         topic,
@@ -155,7 +156,9 @@ import { createSubscription, createTopic, getClient, handlerMessage, publishMess
         },
     });
     console.log(m2);
-
+    
+    console.log("Mensagens recebidas");
+    // para cada metodo inscrito no topico, definir um handler
     await receiveMessage({ subscription, handler: handlerMessage });
 
     // const [ subscriptions ] = await client.getSubscriptions();

@@ -7,6 +7,7 @@ const metadata = {
       maxDeliveryAttempts: 15,
     },
 };
+// .subscription().setMetadata(metadata)
 
 /**
  * Função para Instanciar um Tópico a partir do nome
@@ -27,19 +28,20 @@ export async function getTopic({
 
 /** */
 export async function createTopic({
-    projectId,
+    client,
     topicName,
 }: {
-    projectId: string,
+    client: PubSub,
     topicName: string,
 }): Promise<Topic> {
-    const client = new PubSub({ projectId });
 
-    await client.createTopic(topicName).catch(e => {
-        if (e.code !== 6) {
-            throw e;
-        }
-    });
+    try {
+        await client.createTopic(topicName);
+    } catch (error: any) {
+        if (error.code !== 6) {
+            throw error;
+        }        
+    }
 
     return await getTopic({ client, topicName });
 }
@@ -57,25 +59,26 @@ export async function getSubscription({
 
 /** */
 export async function createSubscription({
-    projectId,
+    client,
     topic,
     subscriptionName,
     filterString,
 }: {
-    projectId: string,
+    client: PubSub,
     topic: Topic,
     subscriptionName: string,
     filterString?: string,
 }): Promise<Subscription> {
-    const client = new PubSub({ projectId });
 
     const options = filterString ? { filter: filterString } : undefined;
 
-    await topic.createSubscription(subscriptionName, options).catch(e => {
-        if (e.code !== 6) {
-            throw e;
-        }
-    });
+    try {
+        await topic.createSubscription(subscriptionName, options);
+    } catch (error: any) {
+        if (error.code !== 6) {
+            throw error;
+        }        
+    }
 
     return await getSubscription({
         client,
@@ -138,6 +141,6 @@ export async function receiveMessage({
     subscription.on('message', handler);
 }
 
-export async function getClient({ projectId }: { projectId: string }) {
+export async function getClient({ projectId }: { projectId?: string }) {
     return new PubSub({ projectId });
 }
