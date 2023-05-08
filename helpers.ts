@@ -46,7 +46,6 @@ export async function createTopic({
     return await getTopic({ client, topicName });
 }
 
-/** */
 export async function getSubscription({
     client,
     subscriptionName,
@@ -86,7 +85,6 @@ export async function createSubscription({
     });
 }
 
-/** */
 export async function publishMessage({
     topic,
     payload,
@@ -116,7 +114,6 @@ export async function publishMessage({
     };
 }
 
-/** */
 export async function handlerMessage(message: Message) {
     console.log({
         'id': message.id,
@@ -130,7 +127,6 @@ export async function handlerMessage(message: Message) {
     return message;
 }
 
-/** */
 export async function receiveMessage({
     subscription,
     handler
