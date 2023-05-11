@@ -16,3 +16,4 @@ RUN ["chmod", "+x", "./start-pubsub.sh"]
 EXPOSE 8085
 
 ENTRYPOINT ["./start-pubsub.sh"]
+
