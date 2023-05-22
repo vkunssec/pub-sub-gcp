@@ -22,7 +22,6 @@
  * https://cloud.google.com/community/tutorials/developing-services-with-k8s
  */
 
-
 // import { inspect } from 'util';
 // import { PubSub } from '@google-cloud/pubsub';
 
