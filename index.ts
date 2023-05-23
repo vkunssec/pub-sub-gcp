@@ -158,6 +158,7 @@ import { createSubscription, createTopic, getClient, handlerMessage, publishMess
     console.log(m2);
     
     console.log("Mensagens recebidas");
+
     // para cada metodo inscrito no topico, definir um handler
     await receiveMessage({ subscription, handler: handlerMessage });
 
